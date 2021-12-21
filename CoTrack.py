@@ -21,8 +21,8 @@ if st.checkbox('Total vacinnations'):
     sub_df
 
 if st.checkbox('Total vacinnations (countrywise)'):
-    location = st.radio("Select the country: ", sub_df['location'].unique())
-    sub_df_location=sub_df.loc[sub_df['location']==location].sort_values(by='date', ascending=False)
-    sub_df_location
-    fig = px.bar(sub_df_location, x='date', y='total_vaccinations',title="Total vacinnations of " +location)
+    country = st.radio("Select the country: ", sub_df['location'].unique())
+    sub_df_country = sub_df.loc[sub_df['location'] == country].sort_values(by='date', ascending=False)
+    sub_df_country
+    fig = px.bar(sub_df_country, x='date', y='total_vaccinations',title="Total vacinnations of " +country)
     st.plotly_chart(fig, use_container_width=True)

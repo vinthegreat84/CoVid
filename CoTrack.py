@@ -21,8 +21,25 @@ if st.checkbox('Total vacinnations'):
     sub_df
 
 if st.checkbox('Total vacinnations (countrywise)'):
+    # selection of country from 'location'
     country = st.radio("Select the country: ", sub_df['location'].unique())
     sub_df_country = sub_df.loc[sub_df['location'] == country].sort_values(by='date', ascending=False)
     sub_df_country
+    
+    # data downloading as 'csv'
+    @st.cache
+    def convert_df(sub_df_country):
+        return sub_df_country.to_csv().encode('utf-8')
+    
+    csv = convert_df(sub_df_country)
+    
+    st.download_button(
+   "Press to download data",
+   csv,
+   "file.csv",
+   "text/csv",
+   key='download-csv'
+    )
+    
     fig = px.bar(sub_df_country, x='date', y='total_vaccinations',title="Total vacinnations of " +country)
     st.plotly_chart(fig, use_container_width=True)

@@ -60,7 +60,7 @@ if st.checkbox('Vacinnations progress (countrywise)'):
         fig = px.bar(sub_df_country, x='date', y='total_vaccinations',title="Total vacinnations of " +country)
         st.plotly_chart(fig, use_container_width=True)
 
-st.sidebar.write("For vaccination dataset, check out the [citation](https://www.nature.com/articles/s41562-021-01122-8)", unsafe_allow_html=True)
+st.sidebar.write("For vaccination dataset (updated each morning, London time), check out the [citation](https://www.nature.com/articles/s41562-021-01122-8)", unsafe_allow_html=True)
     
 st.sidebar.write("For source code, check out my [github](https://github.com/vinthegreat84/CoVid)", unsafe_allow_html=True)
 

@@ -37,6 +37,7 @@ if st.checkbox('Vacinnations progress (countrywise)'):
     sub_df_country = sub_df.loc[sub_df['location'] == country].sort_values(by='date', ascending=False)
     sub_df_country
     
+    # display of latest figure of vacinnation
     total_vaccinations_latest = sub_df_country['total_vaccinations'].iloc[0]
     st.write('Total vacinnation in '+country, 'as on '+today, 'is', total_vaccinations_latest)
     

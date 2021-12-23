@@ -23,19 +23,22 @@ st.write('''Covid Vaccination Analysis is a tool designed using Python and Strea
 
 st.sidebar.title("Covid Vaccination Analysis")
 
-if st.checkbox('Raw data as on '+today):
+if st.checkbox('Raw vacinnation data as on '+today):
     df
     
 sub_df=df[["location","date","total_vaccinations"]]
       
-if st.checkbox('Total vacinnations'):
+if st.checkbox('Vacinnations progress'):
     sub_df
 
-if st.checkbox('Total vacinnations (countrywise)'):
+if st.checkbox('Vacinnations progress (countrywise)'):
     # selection of country from 'location'
     country = st.selectbox("Select the country: ", sub_df['location'].unique())
     sub_df_country = sub_df.loc[sub_df['location'] == country].sort_values(by='date', ascending=False)
     sub_df_country
+    
+    total_vaccinations_latest = sub_df_country['total_vaccinations'].iloc[0]
+    st.write('Total vacinnation in '+country, 'as on '+today, 'is', total_vaccinations_latest)
     
     # data downloading as 'csv'
     @st.cache
@@ -56,7 +59,7 @@ if st.checkbox('Total vacinnations (countrywise)'):
         fig = px.bar(sub_df_country, x='date', y='total_vaccinations',title="Total vacinnations of " +country)
         st.plotly_chart(fig, use_container_width=True)
 
-st.sidebar.write("For vaccination dataset, check out [citation](https://www.nature.com/articles/s41562-021-01122-8)", unsafe_allow_html=True)
+st.sidebar.write("For vaccination dataset, check out the [citation](https://www.nature.com/articles/s41562-021-01122-8)", unsafe_allow_html=True)
     
 st.sidebar.write("For source code, check out my [github](https://github.com/vinthegreat84/CoVid)", unsafe_allow_html=True)
 

@@ -33,7 +33,7 @@ if st.checkbox('Total vacinnations'):
 
 if st.checkbox('Total vacinnations (countrywise)'):
     # selection of country from 'location'
-    country = st.radio("Select the country: ", sub_df['location'].unique())
+    country = st.selectbox("Select the country: ", sub_df['location'].unique())
     sub_df_country = sub_df.loc[sub_df['location'] == country].sort_values(by='date', ascending=False)
     sub_df_country
     
@@ -52,8 +52,9 @@ if st.checkbox('Total vacinnations (countrywise)'):
    key='download-csv'
     )
     
-    fig = px.bar(sub_df_country, x='date', y='total_vaccinations',title="Total vacinnations of " +country)
-    st.plotly_chart(fig, use_container_width=True)
+    if st.checkbox('Show/Hide graph'):
+        fig = px.bar(sub_df_country, x='date', y='total_vaccinations',title="Total vacinnations of " +country)
+        st.plotly_chart(fig, use_container_width=True)
 
 st.sidebar.write("For vaccination dataset, check out [citation](https://www.nature.com/articles/s41562-021-01122-8)", unsafe_allow_html=True)
     

@@ -1,4 +1,4 @@
-# uncomment below lines of code to install required packages
+# uncomment below lines of code to install required packages (if not installed)
 # !pip install streamlit
 # !pip install pandas
 # !pip install numpy

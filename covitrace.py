@@ -1,4 +1,4 @@
-# uncomment below lines of code to install required packages (if not installed)
+# uncomment below lines of code to install required packages
 # !pip install streamlit
 # !pip install pandas
 # !pip install numpy
@@ -23,15 +23,15 @@ st.write('''Covid Vaccination Analysis is a tool designed using Python and Strea
 
 st.sidebar.title("Covid Vaccination Analysis")
 
-if st.checkbox('Raw vacinnation data as on '+today):
+if st.sidebar.checkbox('Raw vacinnation data as on '+today):
     df
     
 sub_df=df[["location","date","total_vaccinations", "total_vaccinations_per_hundred"]]
       
-if st.checkbox('Vacinnations progress'):
+if st.sidebar.checkbox('Vacinnations progress'):
     sub_df
 
-if st.checkbox('Vacinnations progress (countrywise)'):
+if st.sidebar.checkbox('Vacinnations progress (countrywise)'):
     # selection of country from 'location'
     country = st.selectbox("Select the country: ", sub_df['location'].unique())
     sub_df_country = sub_df.loc[sub_df['location'] == country].sort_values(by='date', ascending=False)
@@ -59,11 +59,11 @@ if st.checkbox('Vacinnations progress (countrywise)'):
     )
     
     if st.checkbox('Show/Hide graph of total vacinnation'):
-        fig = px.bar(sub_df_country, x='date', y='total_vaccinations', hover_name="location",title="Total vacinnations of " +country)
+        fig = px.line(sub_df_country, x='date', y='total_vaccinations', hover_name="location",title="Total vacinnations of " +country)
         st.plotly_chart(fig, use_container_width=True)
 
     if st.checkbox('Show/Hide graph of total vacinnation per hundred'):
-        fig = px.bar(sub_df_country, x='date', y='total_vaccinations_per_hundred', hover_name="location",title="Total vacinnations of " +country)
+        fig = px.line(sub_df_country, x='date', y='total_vaccinations_per_hundred', hover_name="location",title="Total vacinnations of " +country)
         st.plotly_chart(fig, use_container_width=True)
 
 st.sidebar.write("For vaccination dataset (updated each morning, London time), check out the [citation](https://www.nature.com/articles/s41562-021-01122-8)", unsafe_allow_html=True)

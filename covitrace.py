@@ -28,9 +28,10 @@ if st.sidebar.checkbox('Raw vacinnation data as on '+today):
     
 sub_df=df[["location","date","total_vaccinations", "total_vaccinations_per_hundred"]]
       
-if st.sidebar.checkbox('Vacinnations progress'):
+if st.sidebar.checkbox('Vacinnations progress (global)'):
     sub_df
 
+# Vacinnations progress (countrywise)     
 if st.sidebar.checkbox('Vacinnations progress (countrywise)'):
     # selection of country from 'location'
     country = st.selectbox("Select the country: ", sub_df['location'].unique())
@@ -63,9 +64,39 @@ if st.sidebar.checkbox('Vacinnations progress (countrywise)'):
         st.plotly_chart(fig, use_container_width=True)
 
     if st.checkbox('Show/Hide graph of total vacinnation per hundred'):
-        fig = px.line(sub_df_country, x='date', y='total_vaccinations_per_hundred', hover_name="location",title="Total vacinnations of " +country)
+        fig = px.line(sub_df_country, x='date', y='total_vaccinations_per_hundred', hover_name="location",title="Total vacinnations per hundred of " +country)
+        st.plotly_chart(fig, use_container_width=True)
+        
+# Vacinnations progress (countrywise comparison)     
+if st.sidebar.checkbox('Vacinnations progress (comparison)'):
+    # selection of country from 'location'
+    country = st.multiselect("Select the countries: ", sub_df['location'].unique())
+    sub_df_country_comparison = sub_df[sub_df['location'].isin(country)].sort_values(by='date', ascending=False)
+    sub_df_country_comparison
+    
+    # data downloading as 'csv'
+    @st.cache
+    def convert_df(sub_df_country_comparison):
+        return sub_df_country_comparison.to_csv().encode('utf-8')
+    
+    csv = convert_df(sub_df_country_comparison)
+    
+    st.download_button(
+   "Press to download data",
+   csv,
+   "file.csv",
+   "text/csv",
+   key='download-csv'
+    )
+    
+    if st.checkbox('Show/Hide graph of total vacinnation'):
+        fig = px.line(sub_df_country_comparison, x='date', y='total_vaccinations', color="location", hover_name="location",title="Total vacinnations")
         st.plotly_chart(fig, use_container_width=True)
 
+    if st.checkbox('Show/Hide graph of total vacinnation per hundred'):
+        fig = px.line(sub_df_country_comparison, x='date', y='total_vaccinations_per_hundred', color="location", hover_name="location",title="Total vacinnations_per_hundred")
+        st.plotly_chart(fig, use_container_width=True)
+        
 st.sidebar.write("For vaccination dataset (updated each morning, London time), check out the [citation](https://www.nature.com/articles/s41562-021-01122-8)", unsafe_allow_html=True)
     
 st.sidebar.write("For source code, check out my [github](https://github.com/vinthegreat84/CoVid)", unsafe_allow_html=True)

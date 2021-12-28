@@ -8,28 +8,69 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from datetime import date
+from datetime import date, datetime
 import plotly.express as px
 
 url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv'
-df = pd.read_csv(url) 
+df = pd.read_csv(url)
+df['date'] = pd.to_datetime(df['date']).dt.date
 
 today = date.today().strftime("%d %b, %Y")
 
 st.title("Covid Vaccination Analysis - 1.0")
 st.write('## Welcome to the Covid Vaccination Analysis')
 st.write('### Created by Vinay Babu')
-st.write('''Covid Vaccination Analysis is a tool designed using Python and Streamlit to analyse covid vacinnation.''')
+st.write('''The covitrace is a tool designed using Python and Streamlit to analyse covid vacinnation.''')
 
 st.sidebar.title("Covid Vaccination Analysis")
 
-if st.sidebar.checkbox('Raw vacinnation data as on '+today):
+if st.sidebar.checkbox('Raw data as on '+today):
     df
+        
+    # data downloading as 'csv'
+    @st.cache
+    def convert_df(df):
+        return df.to_csv().encode('utf-8')
+    
+    csv = convert_df(df)
+    
+    st.download_button(
+   "Press to download data",
+   csv,
+   "file.csv",
+   "text/csv",
+   key='download-csv'
+    )
+
+if st.sidebar.checkbox('Date-filtered analysis'):
+    start_date = st.sidebar.date_input('Start date')
+    end_date = st.sidebar.date_input('End date') 
+    if start_date < end_date:
+        pass
+        mask = (df['date'] >= start_date) & (df['date'] <= end_date)
+        df = df.loc[mask]
+    else:
+        st.error('Error: End date should be chosen after the start day.')
     
 sub_df=df[["location","date","total_vaccinations", "total_vaccinations_per_hundred"]]
-      
+
 if st.sidebar.checkbox('Vacinnations progress (global)'):
-    sub_df
+    sub_df    
+        
+    # data downloading as 'csv'
+    @st.cache
+    def convert_df(sub_df):
+        return sub_df.to_csv().encode('utf-8')
+    
+    csv = convert_df(sub_df)
+    
+    st.download_button(
+   "Press to download data",
+   csv,
+   "file.csv",
+   "text/csv",
+   key='download-csv'
+    )
 
 # Vacinnations progress (countrywise)     
 if st.sidebar.checkbox('Vacinnations progress (countrywise)'):
@@ -59,11 +100,11 @@ if st.sidebar.checkbox('Vacinnations progress (countrywise)'):
    key='download-csv'
     )
     
-    if st.checkbox('Show/Hide graph of total vacinnation'):
+    if st.checkbox('Show/Hide graph of total vacinnations'):
         fig = px.line(sub_df_country, x='date', y='total_vaccinations', hover_name="location",title="Total vacinnations of " +country)
         st.plotly_chart(fig, use_container_width=True)
 
-    if st.checkbox('Show/Hide graph of total vacinnation per hundred'):
+    if st.checkbox('Show/Hide graph of total vacinnation per hundreds'):
         fig = px.line(sub_df_country, x='date', y='total_vaccinations_per_hundred', hover_name="location",title="Total vacinnations per hundred of " +country)
         st.plotly_chart(fig, use_container_width=True)
         
@@ -89,11 +130,11 @@ if st.sidebar.checkbox('Vacinnations progress (comparison)'):
    key='download-csv'
     )
     
-    if st.checkbox('Show/Hide graph of total vacinnation'):
+    if st.checkbox('Show/Hide graph of total vacinnations for countrywise comparison'):
         fig = px.line(sub_df_country_comparison, x='date', y='total_vaccinations', color="location", hover_name="location",title="Total vacinnations")
         st.plotly_chart(fig, use_container_width=True)
 
-    if st.checkbox('Show/Hide graph of total vacinnation per hundred'):
+    if st.checkbox('Show/Hide graph of total vacinnations per hundred for countrywise comparison'):
         fig = px.line(sub_df_country_comparison, x='date', y='total_vaccinations_per_hundred', color="location", hover_name="location",title="Total vacinnations_per_hundred")
         st.plotly_chart(fig, use_container_width=True)
         

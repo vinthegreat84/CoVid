@@ -9,5 +9,5 @@ The covitrace is a tool designed using Python and Streamlit to analyse covid vac
 * Vacinnations progress (comparison)
 
 ## Notes on Usage
-The app can be cloned and run locally using streamlit: streamlit run app.py. When doing this, ensure you have the required modules listed in the requirements file.
+The app can be cloned and run locally using streamlit: streamlit run covitrace.py. When doing this, ensure you have the required modules listed in the requirements file.
 Scales on interactive plots can be changed by double clicking on the lower/upper limit values.

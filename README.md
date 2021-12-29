@@ -4,7 +4,7 @@
 The covitrace is a tool designed using Python and Streamlit to analyse covid vacinnations. Current functionality includes:
 
 * Raw vacinnation data as on date
-* Date-filtered analysis
+* Date filter
 * Vacinnations progress (global)
 * Vacinnations progress (countrywise)
 * Vacinnations progress (comparison)

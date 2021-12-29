@@ -8,12 +8,21 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import plotly.express as px
 
-url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv'
-df = pd.read_csv(url)
-df['date'] = pd.to_datetime(df['date']).dt.date
+@st.cache
+def fetch_data():
+    url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv'
+    df = pd.read_csv(url)
+    df['date'] = pd.to_datetime(df['date']).dt.date
+    return df
+    
+df = fetch_data()
+
+# url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv'
+# df = pd.read_csv(url)
+# df['date'] = pd.to_datetime(df['date']).dt.date
 
 today = date.today().strftime("%d %b, %Y")
 
@@ -42,9 +51,14 @@ if st.sidebar.checkbox('Raw data as on '+today):
    key='download-csv'
     )
 
-if st.sidebar.checkbox('Date-filtered analysis'):
-    start_date = st.sidebar.date_input('Start date')
-    end_date = st.sidebar.date_input('End date') 
+if st.sidebar.checkbox('Date filter'):
+    N_DAYS = 30 # set for '30' days; may be changed for the default view
+#     today = datetime.now()
+    start = datetime.now() - timedelta(days=N_DAYS)
+    end = datetime.now()
+    
+    start_date = st.sidebar.date_input('Start date (default set for 30 days back)', start)
+    end_date = st.sidebar.date_input('End date (default set for today)', end) 
     if start_date < end_date:
         pass
         mask = (df['date'] >= start_date) & (df['date'] <= end_date)

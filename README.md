@@ -1,13 +1,13 @@
 # covitrace
 ## Version 1.0
 ## App for Covid Vaccination Analysis
-The covitrace is a tool designed using Python and Streamlit to analyse covid vacinnations. Current functionality includes:
+The covitrace is a tool designed using Python and Streamlit to analyse covid vaccination. Current functionality includes:
 
-* Raw vacinnation data as on date
+* Raw vaccinations data as on date
 * Date filter
-* Vacinnations progress (global)
-* Vacinnations progress (countrywise)
-* Vacinnations progress (comparison)
+* Vaccinations progress (global)
+* Vaccinations progress (countrywise)
+* Vaccinations progress (comparison)
 
 A running version of the app can be accessed at https://tinyurl.com/covitrace. The app may run slowly when accessing it. This is due to the hosting and should not affect functionality.
 

@@ -48,7 +48,7 @@ if st.sidebar.checkbox('Raw data as on '+today):
    csv,
    "file.csv",
    "text/csv",
-   key='download-csv'
+   key='download1-csv'
     )
 
 if st.sidebar.checkbox('Date filter'):
@@ -83,7 +83,7 @@ if st.sidebar.checkbox('Vacinnations progress (global)'):
    csv,
    "file.csv",
    "text/csv",
-   key='download-csv'
+   key='download2-csv'
     )
 
 # Vacinnations progress (countrywise)     
@@ -111,7 +111,7 @@ if st.sidebar.checkbox('Vacinnations progress (countrywise)'):
    csv,
    "file.csv",
    "text/csv",
-   key='download-csv'
+   key='download3-csv'
     )
     
     if st.checkbox('Show/Hide graph of total vacinnations'):
@@ -141,7 +141,7 @@ if st.sidebar.checkbox('Vacinnations progress (comparison)'):
    csv,
    "file.csv",
    "text/csv",
-   key='download-csv'
+   key='download4-csv'
     )
     
     if st.checkbox('Show/Hide graph of total vacinnations for countrywise comparison'):

@@ -6,6 +6,8 @@
 # !pip install plotly_express
 
 import streamlit as st
+st.set_page_config(layout="wide", page_title='Covid Vaccination Analysis - 1.0')
+
 import pandas as pd
 import numpy as np
 from datetime import date, datetime, timedelta
@@ -19,10 +21,6 @@ def fetch_data():
     return df
     
 df = fetch_data()
-
-# url = 'https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/vaccinations/vaccinations.csv'
-# df = pd.read_csv(url)
-# df['date'] = pd.to_datetime(df['date']).dt.date
 
 today = date.today().strftime("%d %b, %Y")
 
@@ -53,7 +51,6 @@ if st.sidebar.checkbox('Raw data as on '+today):
 
 if st.sidebar.checkbox('Date filter'):
     N_DAYS = 30 # set for '30' days; may be changed for the default view
-#     today = datetime.now()
     start = datetime.now() - timedelta(days=N_DAYS)
     end = datetime.now()
     
@@ -69,7 +66,7 @@ if st.sidebar.checkbox('Date filter'):
 sub_df=df[["location","date","total_vaccinations", "total_vaccinations_per_hundred"]]
 
 if st.sidebar.checkbox('Vacinnations progress (global)'):
-    sub_df    
+    sub_df
         
     # data downloading as 'csv'
     @st.cache
